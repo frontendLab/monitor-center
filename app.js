@@ -16,11 +16,8 @@ const posts = [];
 // middleware
 
 app.use(cors());
-
 app.use(logger());
-
 app.use(render);
-
 app.use(koaBody());
 
 // route definitions
