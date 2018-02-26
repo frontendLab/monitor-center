@@ -1,14 +1,15 @@
 
 const render = require('./lib/render');
-const logger = require('koa-logger');
+// const logger = require('koa-logger');
 const router = require('koa-router')();
-const koaBody = require('koa-body');
-
+const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
-
 const Koa = require('koa');
+const log = require('./lib/log');
+const db = require('./lib/db/index');
+const util = require('./lib/util');
+const mail = require('./lib/mail');
 const app = module.exports = new Koa();
-
 // "database"
 
 const posts = [];
@@ -16,13 +17,33 @@ const posts = [];
 // middleware
 
 app.use(cors());
-app.use(logger());
+// app.use(logger());
 app.use(render);
-app.use(koaBody());
+app.use(bodyParser());
 
 // route definitions
 
-router.get('/', list)
+// api_monitor api监控
+router.get('/am', async ctx => {
+  let header = ctx.request.header
+  let tips = {
+    ua: header['user-agent'],
+    date: Date.now(),
+    referer: header['referer'] || ''
+  }
+  let query = util.decodeData(ctx.query)
+  let info = {
+    ...tips, ...query
+  }
+  db.insertApiMonitor(info)
+  ctx.body = info
+  if (!query.noSendMail) {
+    mail(info.app, '【接口异常提醒】', 'Hello world?')
+  }
+});
+
+
+router.get('/abc', list)
   .get('/post/new', add)
   .get('/post/:id', show)
   .post('/post', create);
@@ -68,6 +89,7 @@ async function create(ctx) {
   ctx.redirect('/');
 }
 
-// listen
-
-if (!module.parent) app.listen(3000);
+if (!module.parent) {
+  app.listen(3000)
+  log('[serverstart]')
+}
