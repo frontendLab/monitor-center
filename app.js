@@ -24,7 +24,8 @@ app.use(bodyParser());
 // route definitions
 
 // api_monitor api监控
-router.get('/am', apiMonitor);
+router.get('/am', apiMonitor.request);
+router.post('/am', apiMonitor.request);
 
 
 router.get('/abc', list)
