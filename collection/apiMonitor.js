@@ -103,13 +103,21 @@ module.exports = {
   request: ctx => {
     let header = ctx.request.header,
       tips = util.getRequestBaseInfo(ctx),
-      query = util.decodeData(ctx.request.method === 'POST' ? ctx.request.body: ctx.query),
+      isGetMethod = ctx.request.method === 'GET',
+      query = util.decodeData(isGetMethod ? ctx.query : ctx.request.body),
       info = {
         ...tips,
         ...query
       };
+    // get接口返回一个图片
+    if (isGetMethod) {
+      ctx.type = 'gif'
+      ctx.body = util.imgbuf
+      // ctx.body = ''
+    } else {
+      ctx.body = ''
+    }
     db.insertApiMonitor(info);
-    ctx.body = ''
     sendMail(info);
   }
 }
