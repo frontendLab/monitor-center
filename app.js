@@ -8,7 +8,7 @@ const log = require('./lib/log');
 const db = require('./lib/db/index');
 const util = require('./lib/util');
 const mail = require('./lib/mail');
-const apiMonitor = require('./collection/apiMonitor');
+const apiMonitor = require('./collection/apiMonitor/index');
 const app = new Koa();
 
 // middleware
@@ -20,9 +20,17 @@ app.use(bodyParser());
 // route definitions 
 // api_monitor api监控
 
-
-
-
+router.get('/mc', ctx => {
+  const type = ctx.query.monitorType
+  switch (type){
+    case 'apiMonitor':
+      apiMonitor.request(ctx)
+    case 'errorMonitor':
+      apiMonitor.request(ctx)
+    default: 
+      apiMonitor.request(ctx)
+  }
+})
 
 router.get('/am', apiMonitor.request);
 router.post('/am', apiMonitor.request);
@@ -33,12 +41,12 @@ router.get('/img', async ctx => {
 
 app.use(router.routes());
 
-
 if (!module.parent) {
-  app.listen(3000)
+  app.listen(8000)
   log('[serverstart]')
 }
 
+// 
 // router.get('/abc', list)
 //   .get('/post/new', add)
 //   .get('/post/:id', show)
