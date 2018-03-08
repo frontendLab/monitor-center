@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "NODE_ENV=online pm2 start node app.js",
-    "online": "NODE_ENV=online start node app.js",
+    "online": "NODE_ENV=online node app.js",
     "dev": "NODE_ENV=development node app.js",
     "test": "./node_modules/.bin/mocha test.js"
   },
