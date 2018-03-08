@@ -17,9 +17,8 @@ app.use(logger());
 app.use(render);
 app.use(bodyParser());
 
-// route definitions 
+// route definitions
 // api_monitor api监控
-
 router.get('/mc', ctx => {
   const type = ctx.query.monitorType
   switch (type){
@@ -34,10 +33,6 @@ router.get('/mc', ctx => {
 
 router.get('/am', apiMonitor.request);
 router.post('/am', apiMonitor.request);
-router.get('/img', async ctx => {
-  ctx.type = 'gif'
-  ctx.body = util.imgbuf
-})
 
 app.use(router.routes());
 

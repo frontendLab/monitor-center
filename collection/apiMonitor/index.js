@@ -3,7 +3,7 @@ const path = require('path');
 const mail = require('../../lib/mail');
 const util = require('../../lib/util');
 const db = require('../../lib/db');
-const { apiMonitorErrorType } = require('../../lib/const');
+const { apiMonitorErrorType, groupDeveLoperMail } = require('../../lib/const');
 
 // 邮件模板
 let mailTemplate = '';
@@ -14,7 +14,9 @@ fs.readFile(path.join(__dirname, './mailTemplate.html'), (err, data) => {
 function sendMail (info) {
   info.typeDesc = apiMonitorErrorType[info.type] || '未知错误'
   if (!info.noSendMail) {
-    mail(info.app, '【接口异常提醒】', util.sub(mailTemplate, info));
+    const to = groupDeveLoperMail['0'] || groupDeveLoperMail[info.app]
+    const content = util.sub(mailTemplate, info)
+    mail(to, '【接口异常提醒】', content)
   }
 }
 
@@ -40,7 +42,6 @@ module.exports = {
         ...tips,
         ...query
       }
-    console.log(info)
     // get接口返回一个图片
     if (isGetMethod) {
       ctx.type = 'gif'
