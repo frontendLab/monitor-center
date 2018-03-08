@@ -31,7 +31,9 @@ router.get('/mc', ctx => {
   }
 })
 
-router.get('/am', apiMonitor.request);
+router.get('/', async ctx => {
+  ctx.body = '前端监控中心'
+});
 router.post('/am', apiMonitor.request);
 
 app.use(router.routes());
