@@ -19,21 +19,28 @@ app.use(bodyParser());
 
 // route definitions
 // api_monitor api监控
-router.get('/mc', ctx => {
-  const type = ctx.query.monitorType
-  switch (type){
-    case 'apiMonitor':
-      apiMonitor.request(ctx)
-    case 'errorMonitor':
-      apiMonitor.request(ctx)
-    default: 
-      apiMonitor.request(ctx)
+function collectRequest (ctx) {
+  try {
+    const type = ctx.query.monitorType
+    switch (type){
+      case 'apiMonitor':
+        apiMonitor.request(ctx)
+      case 'errorMonitor':
+        apiMonitor.request(ctx)
+      default: 
+        apiMonitor.request(ctx)
+    }
+  } catch(e) {
+    ctx.body = e.stack
   }
-})
+}
+router.get('/mc', collectRequest)
+  .post('/mc', collectRequest)
 
 router.get('/', async ctx => {
   ctx.body = '前端监控中心'
-});
+})
+
 router.post('/am', apiMonitor.request);
 
 app.use(router.routes());
