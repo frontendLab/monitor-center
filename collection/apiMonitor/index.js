@@ -14,7 +14,7 @@ fs.readFile(path.join(__dirname, './mailTemplate.html'), (err, data) => {
 // 发邮件
 function sendMail (info) {
   info.typeDesc = apiMonitorErrorType[info.type] || '未知错误'
-  const to = groupDeveLoperMail[info.app] || groupDeveLoperMail['0']
+  const to = groupDeveLoperMail[info.group] || groupDeveLoperMail['0']
   const content = util.sub(mailTemplate, info)
   mail(to, '【接口异常提醒】', content)
 }
