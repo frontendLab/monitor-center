@@ -3,16 +3,19 @@ const render = require('./lib/render');
 const logger = require('koa-logger');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser');
-const cors = require('@koa/cors');
+// const cors = require('@koa/cors');
 const log = require('./lib/log');
 const db = require('./lib/db/index');
 const util = require('./lib/util');
 const mail = require('./lib/mail');
 const apiMonitor = require('./collection/apiMonitor/index');
 const app = new Koa();
+const kcors = require('kcors')
 
 // middleware
-app.use(cors());
+app.use(kcors({
+  credentials: true
+}));
 app.use(logger());
 app.use(render);
 app.use(bodyParser());
@@ -40,8 +43,6 @@ router.get('/mc', collectRequest)
 router.get('/', async ctx => {
   ctx.body = '前端监控中心'
 })
-
-router.post('/am', apiMonitor.request);
 
 app.use(router.routes());
 
