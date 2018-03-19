@@ -2,7 +2,7 @@
   "name": "monitor-center",
   "version": "1.0.0",
   "description": "前端监控中心",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "server": "NODE_ENV=online pm2 start node app.js",
     "online": "NODE_ENV=online node app.js",
