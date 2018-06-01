@@ -1,6 +1,42 @@
 ## 前端监控中心
 
 ----
+#### 1、安装使用
+```
+npm install --save fe-api-monitor-center
+```
+###  监控 拦截器中应用 demo
+```
+function monitor(xhr, type) {
+  // 2000 系统错误，看各自的系统实际设定
+  const monitorCodes = [2000]
+  let res = xhr.data
+  let config = xhr.config
+  if (location.href.indexOf('.com') === -1) {
+    // monitor = function monitor () {}
+    return
+  }
+  if (typeof res === 'object' && res.codeNum && monitorCodes.indexOf(res.codeNum) === -1) {
+    return
+  }
+  feMonitorCenter('apiMonitor', {
+    url: config.url,
+    param: config.requestMethod === 'get' ? config.params : config.data,
+    response: JSON.stringify(res),
+    desc: xhr.message || '接口响应异常',
+    app: '官网控制台项目',
+    method: config.requestMethod || 'post',
+    group: 4,
+    type: type,
+    href: location.href
+  }, {
+    frequency: 1, // 接收频率
+    noSendMail: false, // 不发送邮件
+    noInsertDb: false // 不插入数据库
+  })
+}
+```
+
 
 #### 1、接口异常监控
     收集各个业务方接口的报错信息，包含超时以及系统异常等，快速发现问题，及时响应
