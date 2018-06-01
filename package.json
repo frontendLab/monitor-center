@@ -1,5 +1,5 @@
 {
-  "name": "monitor-center",
+  "name": "fe-api-monitor-center",
   "version": "1.0.0",
   "description": "前端监控中心",
   "main": "app.js",
@@ -14,7 +14,7 @@
     "fe",
     "js"
   ],
-  "author": "zhouxiaojiang@startdt.com <周小将>",
+  "author": "1076996291@qq.com <方兵>",
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^2.2.1",
