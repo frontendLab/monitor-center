@@ -30,7 +30,7 @@ npm manifest:
       "fe",
       "js"
     ],
-    "author": "zhouxiaojiang@startdt.com <周小将>",
+    "author": "fangbing@startdt.com <周小将>",
     "license": "ISC",
     "dependencies": {
       "@koa/cors": "^2.2.1",
