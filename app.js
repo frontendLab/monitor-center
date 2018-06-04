@@ -22,18 +22,18 @@ app.use(bodyParser());
 
 // route definitions
 // api_monitor api监控
-function collectRequest (ctx) {
+function collectRequest(ctx) {
   try {
     const type = ctx.query.monitorType
-    switch (type){
+    switch (type) {
       case 'apiMonitor':
         apiMonitor.request(ctx)
       case 'errorMonitor':
         apiMonitor.request(ctx)
-      default: 
+      default:
         apiMonitor.request(ctx)
     }
-  } catch(e) {
+  } catch (e) {
     ctx.body = e.stack
   }
 }
@@ -47,7 +47,7 @@ router.get('/', async ctx => {
 app.use(router.routes());
 
 if (!module.parent) {
-  app.listen(8000)
+  app.listen(8001)
   log('[serverstart]')
 }
 

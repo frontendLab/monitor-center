@@ -1,5 +1,5 @@
 {
-  "name": "fe-api-monitor-center",
+  "name": "api-monitor-center",
   "version": "1.0.0",
   "description": "前端监控中心",
   "main": "app.js",
